@@ -18,11 +18,11 @@ class model_input(BaseModel):
     cp : int
     trestbps : int
     chol : int
-    fbs : float
-    restecg : float
+    fbs : int
+    restecg : int
     thalach : int
     exang : int
-    oldpeak : int
+    oldpeak : float
     slope : int
     ca : int
     thal : int       
@@ -30,7 +30,7 @@ class model_input(BaseModel):
 # loading the saved model
 classifier_DT = pickle.load(open('classifier_DT.sav', 'rb'))
 
-@app.post('/diabetes_prediction')
+@app.post('/classifier_DT')
 def diabetes_predd(input_parameters : model_input):
     
     input_data = input_parameters.json()
@@ -53,8 +53,14 @@ def diabetes_predd(input_parameters : model_input):
     input_list = [age, sex, cp, chol, fbs, restecg, thalach, exang,oldpeak,slope,ca,thal]
     
     prediction = classifier_DT.predict_proba([input_list])
-    return 0
     
+    if (prediction[0][0] >= 0.75):
+        return 2
+    elif (prediction[0][0] < 0.75 and prediction[0][0] >= 0.25):
+        return 1
+    else:
+        return 0
+
     
 
 
