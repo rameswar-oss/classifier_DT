@@ -53,14 +53,8 @@ def diabetes_predd(input_parameters : model_input):
     input_list = [age, sex, cp, chol, fbs, restecg, thalach, exang,oldpeak,slope,ca,thal]
     
     prediction = classifier_DT.predict_proba([input_list])
+    return 0
     
-    if (prediction[0][0] >= 0.75):
-        return 2
-    elif (prediction[0][0] < 0.75 and prediction[0][0] >= 0.25):
-        return 1
-    else:
-        return 0
-
     
 
 
